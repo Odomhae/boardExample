@@ -20,7 +20,9 @@ var passport = require('passport'),
 var config = require('./config/config'),
     route_loader = require('./routes/router_loader'),
     user = require('./routes/user'),
-    database = require('./database/database');
+    database = require('./database/database'),
+    configPassport = require('./config/passport'),
+    userPassport = require('./routes/user_passport');
 
 
 var app = express();
@@ -54,7 +56,6 @@ app.use(passport.session());
 app.use(flash());
 
 
-var configPassport = require('./config/passport');
 configPassport(app, passport);
 
 console.log(' ');
@@ -66,7 +67,6 @@ var router = express.Router();
 app.use('/', router);
 
 
-var userPassport = require('./routes/user_passport');
 userPassport(app, passport);
 
 var errorHandler = expressErrorHandler({
@@ -84,3 +84,4 @@ app.listen(app.get('port'), function () {
     //db연결, 스키마&모델 정의 
     database.init(app, config);
 });
+console.log('10');
