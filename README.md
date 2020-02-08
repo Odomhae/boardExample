@@ -1,6 +1,7 @@
 # passportExample
 
 
-<h1>Not used: </h1>
+<h3>Not used: </h3>
 /public
+<br>
 /routes/user
