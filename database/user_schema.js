@@ -21,17 +21,18 @@ schema.createSchema = function (mongoose) {
         },*/
         hashed_password: {
             type: String,
-            required: true,
+           // required: true,
             'default': ' '
         },
         salt: {
             type: String,
-            required: true
+            //required: true
         },
         name: {
             type: String,
             index: 'hashed',
-            default: ' '
+            default: ' ',
+            unique : true
         },
         /*age: {
             type: Number,
@@ -50,7 +51,17 @@ schema.createSchema = function (mongoose) {
                 unique: false
             },
             'default': Date.now
-        }
+        },
+        provider:{
+            type : String,
+            'default' : ''
+        },
+        authToken : {
+            type :String,
+            'default' : ''
+        },
+        //facebook :{}
+        google : {}
     });
 
     // info를 virtual 메소드로 정의
@@ -96,13 +107,13 @@ schema.createSchema = function (mongoose) {
     });
 
     // 필수 속성에 대한 유효성 확인
-    userSchema.path('email').validate(function (email) {
+   /* userSchema.path('email').validate(function (email) {
         return email.length;
     }, 'id 값이 없슴다');
 
     userSchema.path('hashed_password').validate(function (hashed_password) {
         return hashed_password.length;
-    }, 'hashed_password 칼럼의 값이 없습니다.');
+    }, 'hashed_password 칼럼의 값이 없습니다.'); */
 
 
     // 스키마에 static 메소드 추가

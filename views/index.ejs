@@ -1,43 +1,88 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-		
-		<title>홈 화면</title>
-		
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    	
-    	<style>
-        	body { padding-top:80px; }
-        	
-			@font-face {
-				font-family: 'Nanum Gothic'; font-style: normal; font-weight: 400;
-				src: url('../public/NanumGothic-Regular.eot');
-				src: local('NanumGothic'),
-					url('../public/NanumGothic-Regular.eot?#iefix') format('embedded-opentype'),
-					url('../public/NanumGothic-Regular.woff2') format('woff2'),
-					url('../public/NanumGothic-Regular.woff') format('woff'),
-					url('../public/NanumGothic-Regular.ttf') format('truetype');
-			}
-        	
-        	h1, p, a { font-family: 'Nanum Gothic' }
-    	</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+
+    <title>홈 화면</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        body {
+            padding-top: 80px;
+        }
+
+        @font-face {
+            font-family: 'Nanum Gothic';
+            font-style: normal;
+            font-weight: 400;
+            src: url('../public/NanumGothic-Regular.eot');
+            src: local('NanumGothic'),
+                url('../public/NanumGothic-Regular.eot?#iefix') format('embedded-opentype'),
+                url('../public/NanumGothic-Regular.woff2') format('woff2'),
+                url('../public/NanumGothic-Regular.woff') format('woff'),
+                url('../public/NanumGothic-Regular.ttf') format('truetype');
+        }
+
+        h1,
+        p,
+        a {
+            font-family: 'Nanum Gothic'
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1><span class="fa fa-shopping-cart"></span> 쇼핑몰 홈</h1>
+            <br>
+            <p>로그인하세요.<p>
+                    <p>계정이 없으시면 회원가입하세요.</p>
+                    <br>
+                    <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> 로그인</a>
+                    <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> 회원가입</a>
+                    <br>            
+            
+                    <a href="http://localhost:3000/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"> </span> 페이스북으로 로그인</a>
+            
+                <br>
+                     <a href="/auth/google" class="btn btn-primary"><span class="fa fa-google"> </span> 구글계정으로 로그인</a>
+        </div>
+
+    </div>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1084485908563881',
+      xfbml      : true,
+      version    : 'v6.0'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
     
-	</head>
-	<body>
-		<div class="container">
-		    <div class="jumbotron text-center">
-		        <h1><span class="fa fa-shopping-cart"></span> 쇼핑몰 홈</h1>
-				<br>
-				<p>로그인하세요.<p>
-				<p>계정이 없으시면 회원가입하세요.</p>
-				<br>
-		        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span>로그인</a>
-		        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span>회원가입</a>
-		    </div>
-		
-		</div>
-	</body>
+    
+  <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v6.0&appId=1084485908563881&autoLogAppEvents=1&redirect_uri=http://localhost:3000/auth/facebook/callback"></script> 
+
+    <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+    
+    
+</body>
+
 </html>

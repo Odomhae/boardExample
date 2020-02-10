@@ -1,10 +1,13 @@
+var config = require('../config/config');
+
 module.exports = function (router, passport) {
     console.log('user_passport 호출됨');
 
     //홈 화면 
     router.route('/').get(function (req, res) {
         console.log('/ 호출됨');
-        res.render('index.ejs');
+        var context ={"userId": config.facebook.clientID}
+        res.render('index.ejs', context);
     });
 
     //로그인 폼 링크
@@ -77,6 +80,26 @@ module.exports = function (router, passport) {
         req.logout();
         res.redirect('/');
     });
+    
+    
+    //페에스북 페스포트 
+    router.route('/auth/facebook').get(passport.authenticate('facebook',{
+        scope : 'email'
+    }));
+    //패스포트 페이스북 인증 콜백 라우팅
+    router.route('auth/facebook/callback').get(passport.authenticate('facebook',{
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
+    
+    //구글 패스포트 
+    router.route('/auth/google').get(passport.authenticate('google',{
+        scope : 'profile'
+    }));
+    router.route('/auth/google/callback').get(passport.authenticate('google',{
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
 
 
 }

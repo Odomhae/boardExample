@@ -8,6 +8,7 @@
 		
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     	
     	<style>
         	body        { padding-top:80px; }
@@ -33,6 +34,7 @@
 		
 		        <div class="col-sm-6">
 		            <div class="well">
+                        <% if(user.provider ==undefined || user.provider =='') { %>
 		                <h3><span class="fa fa-user"></span> 로컬 프로필 정보</h3>
 						<br>
 						<p>
@@ -40,6 +42,32 @@
 		                	<br><br>
 		                	<strong>별명</strong>: <%= user.name %>
 		                </p>
+                        <% }else if(user.provider =='facebook'){ %>
+                        <h3 class="text-primary">
+                            <span class = "fa fa-facebook"></span>페북 프로필 정보</h3>
+						<br>
+						<p>
+		                	<strong>아이디</strong>: <%= user.facebook.id %>
+		                	<br><br> 
+		                	<strong>이메일</strong>: <%=user.facebook.email %>
+                            <br><br>
+		                	<strong>이름</strong>: <%= user.facebook.name %>
+		                </p>
+                                                                                          
+                        <%}  else if(user.provider =='google'){ %>
+                        <h3 class="text-primary">
+                            <span class = "fa fa-google"></span> 구글 프로필 정보</h3>
+						<br>
+						<p>
+		                	<strong>아이디</strong>: <%= user._id %>
+		                	<br><br>
+		                	<strong>Last name</strong>: <%= user.google.family_name %>
+                            <br><br>
+		                	<strong>이름</strong>: <%= user.google.name %>
+                           
+		                </p>
+                                                                                          
+                        <%} %>
 						<br>
 		            </div>
 		        </div>
