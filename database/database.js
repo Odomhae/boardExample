@@ -37,9 +37,6 @@ function connect(app, config){
         setInterval(connectDB, 5000);
     });
     
-    
-    // app 객체에 database 속성 추가
-    app.set('database', database);
 }
 
 function createSchema(app, config){ 
@@ -60,8 +57,12 @@ function createSchema(app, config){
         database[curItem.schemaName] = curSchema;
         database[curItem.modelName] = curModel;
         console.log('스키마이름 : %s, 모델이름 : %s이 database 객체의 속성으로 추가됨', curItem.schemaName, curItem.modelName); // config.db_schemas[i].modelName
+       
     }
     
+     console.log(' ');
+    
+    // app 객체에 database 속성 추가
     app.set('database', database);
     console.log('database 객체가 app 객체의 속성으로 추가됨')
     

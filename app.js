@@ -1,4 +1,4 @@
-var express = require('express'),
+  var express = require('express'),
     http = require('http'),
     path = require('path');
 
@@ -19,7 +19,7 @@ var passport = require('passport'),
 
 var config = require('./config/config'),
     route_loader = require('./routes/router_loader'),
-    user = require('./routes/user'),
+   // user = require('./routes/user'),
     database = require('./database/database'),
     configPassport = require('./config/passport'),
     userPassport = require('./routes/user_passport');
@@ -51,23 +51,23 @@ app.use(expressSession({
     saveUninitialized: true
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 app.use(flash());
 
 
-configPassport(app, passport);
+//configPassport(app, passport);
 
 console.log(' ');
 
 var router = express.Router();
-//route_loader.init(app, router);
+route_loader.init(app, router);
 
 // 라우터 객체 등록
 app.use('/', router);
 
 
-userPassport(app, passport);
+//userPassport(app, passport);
 
 var errorHandler = expressErrorHandler({
     static: {

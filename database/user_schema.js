@@ -5,7 +5,7 @@ var schema = {};
 schema.createSchema = function (mongoose) {
 
     //스키마 정의
-    // password를 hase- 로 변경 
+    // password를 hash- 로 변경 
     // 모두 default 속성 추가 
     // salt 속성 추가 
     userSchema = mongoose.Schema({

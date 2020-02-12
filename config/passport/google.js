@@ -9,7 +9,7 @@ module.exports = function(app, passport) {
 	}, function(accessToken, refreshToken, profile, done) {
 		console.log('passport의 googlee 호출됨.');
 		console.dir(profile);
-		console.log('///////////////////');
+		console.log('///////////////////');   
 		var options = {
 		    criteria: { 'google.id': profile.id }
 		};
