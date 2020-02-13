@@ -128,6 +128,8 @@ schemaObj.createSchema = function (mongoose) {
             .skip(options.perPage * options.page)
             .exec(callback);
         }
+        
+        
     }
     
     console.log('post schema 정의함 ');
