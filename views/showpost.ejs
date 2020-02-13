@@ -117,7 +117,12 @@
 				
                  <!--시작 page값이랑 perPage값 넘겨줌  -->
 				<br><br><a class="ui button" href='/process/listpost?page=0&perPage=5'>글 목록</a>
-               
+                
+                <form method="post" action="/process/deletepost">
+                    <input type="hidden" name = "id" value = "<%=posts._id%>">
+                    <input type = "submit" value= "글 삭제">
+                </form>
+            
 				
 			</div>
 			

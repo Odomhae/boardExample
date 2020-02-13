@@ -16,8 +16,9 @@ module.exports = {
         {file:'./post', path:'/process/addpost/', method:'addpost', type: 'post'},
         {file:'./post', path:'/process/showpost/:id', method:'showpost', type: 'get'},
          {file:'./post', path:'/process/listpost', method:'listpost', type: 'post'},
-         {file:'./post', path:'/process/listpost', method:'listpost', type: 'get'}     
+         {file:'./post', path:'/process/listpost', method:'listpost', type: 'get'},
+         {file:'./post', path:'/process/deletepost', method:'deletepost', type: 'post'} // have to 'post!!'
      
-    ],
+    ]
     
 }

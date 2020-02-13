@@ -1,4 +1,5 @@
 var Entities = require('html-entities').AllHtmlEntities;
+var fs = require('fs');
 
 
 // 글 추가 
@@ -47,7 +48,7 @@ var addPost = function (req, res) {
                 title: paramTitle,
                 contents: paramContents,
                 writer: userObjectId
-             //   clickedNum : 
+                //   clickedNum : 
             });
 
             post.savePost(function (err, result) {
@@ -57,7 +58,7 @@ var addPost = function (req, res) {
 
                 console.log('글 데이터 추가함 ');
                 console.log('포스팅 완료 : ' + post._id);
-               
+
                 return res.redirect('/process/showpost/' + post._id);
 
             });
@@ -101,11 +102,11 @@ var showPost = function (req, res) {
 
             if (result) {
                 // 조회수 증가 
-              //  result._doc.clickedNum++;
+                //  result._doc.clickedNum++;
                 result.clickedNum++;
                 result.save();
-                
-                console.log('결과 :'+ result);
+
+                console.log('결과 :' + result);
                 console.log('////////////////////////');
                 // 뷰 렌더링
                 res.writeHead('200', {
@@ -116,7 +117,7 @@ var showPost = function (req, res) {
                     title: '글 조회',
                     posts: result,
                     Entities: Entities,
-                    clickedNum : result._doc.clickedNum
+                    clickedNum: result._doc.clickedNum
                 };
 
                 req.app.render('showpost', context, function (err, html) {
@@ -208,7 +209,7 @@ var listPost = function (req, res) {
 
                         }
 
-                       // console.log('글목록 :' + html);
+                        // console.log('글목록 :' + html);
                         res.end(html);
                     });
                 });
@@ -216,10 +217,70 @@ var listPost = function (req, res) {
 
 
         });
+    } else {
+        res.writeHead('200', {
+            'Content-Type': 'text/html;charset=utf8'
+        });
+        res.write('<h2>데이터베이스 연결 실패</h2>');
+        res.end();
     }
 }
 
+// 해당 포스트 삭제 
+var deletePost = function (req, res) {
+    console.log('post.js의 deletepost 호출됨');
 
+    var paramId = req.body.id || req.query.id || req.params.id;
+    console.log('요청 파라미터 : ' + paramId);
+
+    var database = req.app.get('database');
+
+    if (database) {
+       
+         database.postModel.load(paramId, function (err, result) {
+            if (err) {
+                console.log('삭제할 글 조회 중 오류 발생 ' + err.stack);
+
+                res.writeHead('200', {
+                    'Contett-Type': 'text/html;charset =utf8'
+                });
+                res.write('<h2>삭제할 글 조회 중 오류 발생</h2>')
+                res.end();
+
+                return;
+            }
+
+            if (result) {
+                
+                // 글 삭제  
+                result.delete();
+
+                console.log('결과 :' + result);
+                console.log('글 삭제됨 ');
+                console.log('////////////////////////');
+                
+                
+                // page, perpage 파라미터 전달 후 
+                // 리스트 조회
+                res.redirect('/process/listpost?page=0&perPage=5');
+
+            }
+        })
+
+
+    } else {
+        res.writeHead('200', {
+            'Content-Type': 'text/html;charset=utf8'
+        });
+        res.write('<h2>데이터베이스 연결 실패</h2>');
+        res.end();
+    }
+
+
+}
+
+
+module.exports.deletepost = deletePost;
 module.exports.listpost = listPost;
 module.exports.addpost = addPost;
 module.exports.showpost = showPost;
