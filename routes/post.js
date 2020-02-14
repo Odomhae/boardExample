@@ -94,55 +94,7 @@ var updatePostConfirm = function (req, res) {
             res.redirect('/process/listpost?page=0&perPage=5');
             
         })
-        //이메일로 등록된 사용자만 글쓸수 있으므로 
-       /* database.userModel.findByEmail(paramWriter, function (err, results) {
-            if (err) {
-                console.log('글 업데이트 중 오류 발생 ' + err.stack);
-
-                res.writeHead('200', {
-                    'Contett-Type': 'text/html;charset =utf8'
-                });
-                res.write('<h2>글 업데이트 중 오류 발생</h2>')
-                res.end();
-
-                return;
-            }
-
-            if (results == undefined || results.length < 1) {
-                res.writeHead('200', {
-                    'Content-Type': 'text/html;charset=utf8'
-                });
-                res.write('<h2> 사용자 [ ' + paramWriter + ']찾을 수 없음</h2>')
-                res.end();
-
-                return;
-
-            }
-
-            var userObjectId = results[0]._doc._id;
-            console.log('사용자 objectid : ' + paramWriter + '=> ' + userObjectId);
-
-            //저장
-            var post = new database.postModel({
-                title: paramTitle,
-                contents: paramContents,
-                writer: userObjectId, ///
-                updated_at : Date.now()
-            });
-
-            post.savePost(function (err, result) {
-                if (err) {
-                    throw err;
-                }
-
-                console.log('글 데이터 수정함 ');
-                console.log('수정 완료 : ' + post._id);
-
-                return res.redirect('/process/showpost/' + post._id);
-
-            });
-
-        });*/
+      
         
     } else {
         res.writeHead('200', {
@@ -360,31 +312,29 @@ var deletePost = function (req, res) {
 var updatePostPage = function (req, res) {
     console.log('post.js의 updatepost 호출됨');
 
-    var paramId = req.body.id || req.query.id;
-    var paramContents = req.body.contents || req.query.contents;
-    console.log('요청 파라미터 : ' + paramId + ', ' + paramContents );
-      console.log('/////////////////');
+    var paramId = req.body.id || req.query.id;  
+    console.log('요청 파라미터 : ' + paramId );
+    
     var database = req.app.get('database');
-
     if (database) {
         database.postModel.load(paramId, function (err, result) {
             if (err) {
-                console.log('sfasefase');
-
+                console.log('err : '+err.stack );
             }
-            if (result) {
+            
+            if (result){
                 // 뷰 렌더링
                 res.writeHead('200', {
-                    'Contett-Type': 'text/html;charset =utf8'
+                   'Contett-Type': 'text/html;charset =utf8'
                 });
 
                 var context = {
                     title: '글 수정',
                     posts: result,
-                    Entities: Entities,
+                    
+                   // Entities: Entities,
                 };
-                console.log('result : '+result);
-
+                
                 req.app.render('updatepost', context, function (err, html) {
                     if (err) {
                         console.log('updatepost 렌더링 중 오류 발생 ');
