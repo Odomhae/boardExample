@@ -103,6 +103,11 @@ schemaObj.createSchema = function (mongoose) {
 
             this.save(callback);
         }
+        
+        //
+        //findByIdAndUpdate : function(id, callback){
+            
+        //}
     }
     
     

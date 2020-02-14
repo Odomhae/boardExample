@@ -1,5 +1,4 @@
 var Entities = require('html-entities').AllHtmlEntities;
-var fs = require('fs');
 
 
 // 글 추가 
@@ -73,7 +72,86 @@ var addPost = function (req, res) {
     }
 }
 
+// 업데이트 된 글 수정 
+var updatePostConfirm = function (req, res) {
+    console.log('post.js의 updatePostConfirm 호출됨');
 
+    var paramTitle = req.body.title || req.query.title;
+    var paramContents = req.body.contents || req.query.contents;
+    var paramWriter = req.body.writer || req.query.writer;
+    var paramPostid = req.body.postId || req.query.postId;
+
+    console.log('제목내용작가 글아이디 : ' + paramTitle + ', ' +paramContents+', '+ paramWriter+ ',' +paramPostid);
+
+    var database = req.app.get('database');
+
+    if (database) {
+        database.postModel.findByIdAndUpdate(paramPostid,{$set: {title : paramTitle, contents : paramContents, updated_at : Date.now()}}, function(err){
+            if(err){
+                console.log('업데이트중 에러 발생 '+ err.stack);
+            }
+            
+            res.redirect('/process/listpost?page=0&perPage=5');
+            
+        })
+        //이메일로 등록된 사용자만 글쓸수 있으므로 
+       /* database.userModel.findByEmail(paramWriter, function (err, results) {
+            if (err) {
+                console.log('글 업데이트 중 오류 발생 ' + err.stack);
+
+                res.writeHead('200', {
+                    'Contett-Type': 'text/html;charset =utf8'
+                });
+                res.write('<h2>글 업데이트 중 오류 발생</h2>')
+                res.end();
+
+                return;
+            }
+
+            if (results == undefined || results.length < 1) {
+                res.writeHead('200', {
+                    'Content-Type': 'text/html;charset=utf8'
+                });
+                res.write('<h2> 사용자 [ ' + paramWriter + ']찾을 수 없음</h2>')
+                res.end();
+
+                return;
+
+            }
+
+            var userObjectId = results[0]._doc._id;
+            console.log('사용자 objectid : ' + paramWriter + '=> ' + userObjectId);
+
+            //저장
+            var post = new database.postModel({
+                title: paramTitle,
+                contents: paramContents,
+                writer: userObjectId, ///
+                updated_at : Date.now()
+            });
+
+            post.savePost(function (err, result) {
+                if (err) {
+                    throw err;
+                }
+
+                console.log('글 데이터 수정함 ');
+                console.log('수정 완료 : ' + post._id);
+
+                return res.redirect('/process/showpost/' + post._id);
+
+            });
+
+        });*/
+        
+    } else {
+        res.writeHead('200', {
+            'Content-Type': 'text/html;charset=utf8'
+        });
+        res.write('<h2>데이터베이스 연결 실패</h2>');
+        res.end();
+    }
+}
 
 // 쓴 글 조회 
 var showPost = function (req, res) {
@@ -125,7 +203,7 @@ var showPost = function (req, res) {
                         console.log('showpost 렌더링 중 오류 발생 ');
                         throw err;
                     }
-                    database.postModel.find
+                    
                     //console.log('showpost 응답문서 : ' + html);
                     res.end(html);
                 });
@@ -141,7 +219,6 @@ var showPost = function (req, res) {
     }
 
 }
-
 
 // 글 리스트 조회 
 var listPost = function (req, res) {
@@ -236,8 +313,8 @@ var deletePost = function (req, res) {
     var database = req.app.get('database');
 
     if (database) {
-       
-         database.postModel.load(paramId, function (err, result) {
+
+        database.postModel.load(paramId, function (err, result) {
             if (err) {
                 console.log('삭제할 글 조회 중 오류 발생 ' + err.stack);
 
@@ -251,15 +328,15 @@ var deletePost = function (req, res) {
             }
 
             if (result) {
-                
+
                 // 글 삭제  
                 result.delete();
 
                 console.log('결과 :' + result);
                 console.log('글 삭제됨 ');
                 console.log('////////////////////////');
-                
-                
+
+
                 // page, perpage 파라미터 전달 후 
                 // 리스트 조회
                 res.redirect('/process/listpost?page=0&perPage=5');
@@ -279,7 +356,59 @@ var deletePost = function (req, res) {
 
 }
 
+// 글 수정하는 페이지
+var updatePostPage = function (req, res) {
+    console.log('post.js의 updatepost 호출됨');
 
+    var paramId = req.body.id || req.query.id;
+    var paramContents = req.body.contents || req.query.contents;
+    console.log('요청 파라미터 : ' + paramId + ', ' + paramContents );
+      console.log('/////////////////');
+    var database = req.app.get('database');
+
+    if (database) {
+        database.postModel.load(paramId, function (err, result) {
+            if (err) {
+                console.log('sfasefase');
+
+            }
+            if (result) {
+                // 뷰 렌더링
+                res.writeHead('200', {
+                    'Contett-Type': 'text/html;charset =utf8'
+                });
+
+                var context = {
+                    title: '글 수정',
+                    posts: result,
+                    Entities: Entities,
+                };
+                console.log('result : '+result);
+
+                req.app.render('updatepost', context, function (err, html) {
+                    if (err) {
+                        console.log('updatepost 렌더링 중 오류 발생 ');
+                        throw err;
+                    }
+                   
+                    res.end(html);
+                });
+
+            }
+
+        })
+    } else {
+        res.writeHead('200', {
+            'Content-Type': 'text/html;charset=utf8'
+        });
+        res.write('<h2>데이터베이스 연결 실패</h2>');
+        res.end();
+    }
+}
+
+
+module.exports.updatepostPage = updatePostPage;
+module.exports.updatepostConfirm = updatePostConfirm;
 module.exports.deletepost = deletePost;
 module.exports.listpost = listPost;
 module.exports.addpost = addPost;
