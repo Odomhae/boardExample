@@ -69,7 +69,6 @@
             console.log('output : ' + output);
 
             $("#contentsOutput").html(output);
-
         });
 
     </script>
@@ -113,10 +112,36 @@
                     <div class="right floated author">
                         <img class="ui avatar image" src="/public/author.png"> <%=curWriter %>
                     </div>
-                    <%//=curClicked%> <%//=posts.clickedNum %>
                 </div>
 
             </div>
+
+            <!-- 댓글 -->
+            <br>
+            <form method="post" action="/process/addcomment">
+                <label>댓글 </label>
+                <br>
+                <input type="text" name="commentText" value=""> 
+                <input type="hidden" name="id" value="<%=posts._doc._id%>">
+                <input type="hidden" name="writer" value=" <%=curWriter %>">
+                <input type="submit" value="입력완료">
+            
+            </form>
+
+            <br><br>
+            <!-- 댓글 목록-->
+            <label>댓글 목록 </label>
+            <br>
+            <br>
+            <%   
+                for(var i = 0; i<posts._doc.comments.length; i++){
+                    var curCmts = posts._doc.comments[i].contents;
+                    var curCmtWriter = posts._doc.comments[i].writer;
+            %>
+                #<%=(i+1) %> &nbsp; <%=curCmts %> &nbsp; <%= curCmtWriter %> <!-- #1 댓글 내용 작성자 이름  -->
+                <br>
+            <% } %>
+            
 
             <!--시작 page값이랑 perPage값 넘겨줌  -->
             <br><br><a class="ui button" href='/process/listpost?page=0&perPage=5'>글 목록</a>
@@ -124,7 +149,6 @@
             <!-- 글 수정하기  -->
             <form method="post" action="/process/updatepostPage">
                 <input type="hidden" name="id" value="<%=posts._id%>">
-                <input type="hidden" name="contents" value="<%=curContents%>">
                 <input type="submit" value="글 수정하기">
             </form>
 

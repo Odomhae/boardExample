@@ -38,7 +38,9 @@ var addPost = function (req, res) {
                 return;
 
             }
-
+            
+            console.log('results :'+results);
+            
             var userObjectId = results[0]._doc._id;
             console.log('사용자 objectid : ' + paramWriter + '=> ' + userObjectId);
 
@@ -70,6 +72,47 @@ var addPost = function (req, res) {
         res.write('<h2>데이터베이스 연결 실패</h2>');
         res.end();
     }
+}
+
+//댓글 추가 
+var addComment = function(req,res){
+    console.log('post.js의 addcomment 호출됨');
+
+    var paramId = req.body.id || req.query.id; // 댓글말고 본 글의 아이디
+    var paramComments = req.body.commentText || req.query.commentText; //  댓글 내용
+    var paramWriter = req.body.writer || req.query.writer;
+
+    console.log('parameter : ' + paramId + ', ' + paramComments + ', ' + paramWriter);
+
+    var database = req.app.get('database');
+    
+    if(database) {
+        database.postModel.findByIdAndUpdate(paramId, {$push :{comments:{contents:paramComments, writer: paramWriter}}}, function(err){
+            if(err){
+                console.log('댓글 추가 중 에러 발생 : ' +err.stack);
+
+                res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+                res.write('<h2>게시판 댓글 추가 중 에러 발생</h2>');
+                res.end();
+                
+                return;           
+            }
+            
+            console.log('댓글 추가 완료 ');
+            
+            return res.redirect('/process/showpost/' + paramId);
+        });
+        
+        
+    } else {
+        res.writeHead('200', {
+            'Content-Type': 'text/html;charset=utf8'
+        });
+        res.write('<h2>데이터베이스 연결 실패</h2>');
+        res.end();
+    }
+
+
 }
 
 // 업데이트 된 글 수정 
@@ -132,7 +175,6 @@ var showPost = function (req, res) {
 
             if (result) {
                 // 조회수 증가 
-                //  result._doc.clickedNum++;
                 result.clickedNum++;
                 result.save();
 
@@ -156,7 +198,6 @@ var showPost = function (req, res) {
                         throw err;
                     }
                     
-                    //console.log('showpost 응답문서 : ' + html);
                     res.end(html);
                 });
             }
@@ -363,3 +404,4 @@ module.exports.deletepost = deletePost;
 module.exports.listpost = listPost;
 module.exports.addpost = addPost;
 module.exports.showpost = showPost;
+module.exports.addcomment = addComment;

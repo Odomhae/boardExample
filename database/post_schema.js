@@ -16,7 +16,7 @@ schemaObj.createSchema = function (mongoose) {
             trim: true,
             default: ''
         },
-        
+
         // user6 컬렉션을 참고해서 이 문서 객체 중 objectid 속성값이 저장된다 .
         writer: {
             type: mongoose.Schema.ObjectId,
@@ -35,12 +35,15 @@ schemaObj.createSchema = function (mongoose) {
         },
         updated_at: {
             type: Date,
-            index: {unique: false},
+            index: {
+                unique: false
+            },
             default: Date.now
         },
-        clickedNum :{
-            type : Number,
-            default : 0
+        // 조회수
+        clickedNum: {
+            type: Number,
+            default: 0
         },
         comments: [{
             contents: {
@@ -49,7 +52,7 @@ schemaObj.createSchema = function (mongoose) {
                 default: ''
             },
             writer: {
-                type: mongoose.Schema.ObjectId,
+                type: String,
                 ref: 'users6'
             },
             created_at: {
@@ -103,44 +106,44 @@ schemaObj.createSchema = function (mongoose) {
 
             this.save(callback);
         }
-        
-        //
-        //findByIdAndUpdate : function(id, callback){
-            
-        //}
+
     }
-    
-    
+
+
     //객체에서 호출가능한 메소드 추가
-    postSchema. statics = {
-        
+    postSchema.statics = {
+
         //id로 글 찾기 
-        load : function(id, callback){
-            this.findOne({_id : id})
-            .populate('writer' , 'name provider email')
-            .populate('comments.writer')
-            .exec(callback);
+        load: function (id, callback) {
+            this.findOne({
+                    _id: id
+                })
+                .populate('writer', 'name provider email')
+              //  .populate('comments.writer')
+                .exec(callback);
         },
-        
+
         // 모든 데이터 조회
-        list : function(options, callback){
+        list: function (options, callback) {
             var criteria = options.criteria || {};
-            
+
             this.find(criteria)
-            .populate('writer', 'name provider email')
-            .sort({'created_at' :-1})
-            .limit(Number(options.perPage))
-            .skip(options.perPage * options.page)
-            .exec(callback);
+                .populate('writer', 'name provider email')
+                .sort({
+                    'created_at': -1
+                })
+                .limit(Number(options.perPage))
+                .skip(options.perPage * options.page)
+                .exec(callback);
         }
-        
-        
+
+
     }
-    
+
     console.log('post schema 정의함 ');
-    
+
     return postSchema;
-    
+
 }
 
 module.exports = schemaObj;
