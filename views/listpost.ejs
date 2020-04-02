@@ -84,31 +84,34 @@
 
                     <div class="ui very relaxed selection celled list">
                                     <!-- (전체 페이지 수 - 현재페이지수) * 페이지당 글 수 -->
-                        <%  var noStart =  ( page) * perPage;                           
-							
+                        <%  var noStart =  ( page) * perPage;                               
 							    for (var i = 0; i < posts.length; i++) {
 								   var curTitle = posts[i]._doc.title;
 								   var curContents = posts[i]._doc.contents;
 								   var curWriter = posts[i]._doc.writer.email;                              
                                     var curNo = noStart + (i+1); // 1부터 시작 
-                                    var curDate = posts[i]._doc.created_at;
+                                    var curDate = posts[i]._doc.created_at.getFullYear().toString()+" / "+ (posts[i]._doc.created_at.getMonth()+1).toString() + " / "+ posts[i]._doc.created_at.getDate().toString()
                                     var curclickedNum = posts[i]._doc.clickedNum;
 								   %>
                         <div class="item">
                             <div class="ui grid">
                                 <div class="two wide column"><%=curNo %>  </div>
-                                <div class="fourteen wide column" onclick="javascript:window.location='/process/showpost/<%=posts[i]._id %>'">
+                                <div class="eight wide column" onclick="javascript:window.location='/process/showpost/<%=posts[i]._id %>'">
                                     <div class="ui header">
+                                        <div class="two wide column">
                                         <h4 class="ui left aligned header">
-                                            <%=curTitle %>
+                                            <%=curTitle %>                                          
                                         </h4>
-                                        <h5 class="ui right aligned orange header">
-                                            <%=curWriter %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <%=curDate %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <%=curclickedNum%> 
-                                        </h5>
+                                        </div>
+                                                                                                                
                                     </div>
                                 </div>
+                               
+                                <div class="two wide column"><%=curWriter %></div>                                   
+                                <div class="two wide column"><%=curDate %></div>
+                               <div class="two wide column"><%=curclickedNum %></div>
+                                  
+                                                                 
                             </div>
                         </div>
                         <% } %>
@@ -117,41 +120,37 @@
 
                     <br>
                     <div class="tiny ui basic buttons">
-                        <%
-					 			if (page > 0) {
-					 		%>
+                        <% if (page > 0) {%>
                         <div class="ui icon button" onclick="listpost(0, <%=perPage %>)">
                             <i class="backward icon"></i>
                         </div>
                         <div class="ui icon button" onclick="listpost(<%=(page-1) %>, <%=perPage %>)">
                             <i class="left chevron icon"></i>
                         </div>
-                        <%
-					 			} else {
-					 		%>
+                        <% } else{ %>
                         <div class="ui disabled icon button">
                             <i class="backward icon"></i>
                         </div>
                         <div class="ui disabled icon button">
                             <i class="left chevron icon"></i>
                         </div>
-                        <%
-					 			}
-					 		%>
+                        <%	}%>	
+					 		
                         <% 
-					 			var initial = (Math.floor(page / 10) * 10);
-					 			console.log('initial : ' + initial);
+                            //페이지 번호 
+					 		var initial = (Math.floor(page / 10) * 10);
+					 		console.log('initial : ' + initial);
 					 			
-					 			var max = pageCount - initial;
-					 			if (max > 10) {
-					 				max = initial + 10;
-					 			}else {
-					 				max = initial + max;
-					 			}
-					 			console.log('max : ' + max);
+					 		var max = pageCount - initial;
+					 		if (max > 10) {
+					 			max = initial + 10;
+					 		}else {
+					 			max = initial + max;
+					 		}
+					 		console.log('max : ' + max);
 					 			
-					 			for (var i = initial; i < max; i++) {
-					 				if (i != page) {
+					 		for (var i = initial; i < max; i++) {
+					 			if (i != page) {
 					 		%>
                         <div class="ui button" onclick="listpost(<%=i %>, <%=perPage %>)">
                             <%= i %>

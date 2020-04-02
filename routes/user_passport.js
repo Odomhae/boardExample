@@ -6,16 +6,13 @@ module.exports = function (router, passport) {
     //홈 화면 
     router.route('/').get(function (req, res) {
         console.log('/ 호출됨');
-        var context ={"userId": config.facebook.clientID}
-        res.render('index.ejs', context);
+       // var context ={"userId": config.facebook.clientID}
+       // res.render('index.ejs', context);
+       res.render('index.ejs');
+
     });
 
     //로그인 폼 링크
-    /*app.get('/login',function(req,res){
-        console.log('/login 호출됨');
-        res.render('login.ejs', {message : req.flash('loginMsg')});
-    });*/
-
     router.route('/login').get(function (req, res) {
         console.log('/login 패스 요청됨.');
         res.render('login.ejs', {

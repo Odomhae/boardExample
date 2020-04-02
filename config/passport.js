@@ -27,8 +27,8 @@ module.exports = function (app, passport) {
     //인증방식 설정 
     passport.use('local-login', local_login);
     passport.use('local-signup', local_signup);
-    passport.use('facebook', facebook(app, passport));
-    passport.use('google', google(app,passport));
+   // passport.use('facebook', facebook(app, passport));
+   // passport.use('google', google(app,passport));
     console.log('인증방식 설정')
     /*
     모듈화전에는 

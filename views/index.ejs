@@ -41,46 +41,29 @@
 <body>
     <div class="container">
         <div class="jumbotron text-center">
-            <h1><span class="fa fa-shopping-cart"></span> 쇼핑몰 홈</h1>
+            <h1><span class="fa fa-fire"></span> 게 시 판 <span class="fa fa-fire"></span> </h1>
+            
             <br>
             <p>로그인하세요.<p>
-                    <p>계정이 없으시면 회원가입하세요.</p>
-                    <br>
-                    <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> 로그인</a>
-                    <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> 회원가입</a>
-                    <br>            
+            <p>계정이 없으시면 회원가입하세요.</p>
+            <br>
+            <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> 로그인</a>
+            <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> 회원가입</a>        
+            <br>            
+                    
+            <a href="http://localhost:3000/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"> </span> 페이스북으로 로그인</a>
             
-                    <a href="http://localhost:3000/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"> </span> 페이스북으로 로그인</a>
-            
-                <br>
-                     <a href="/auth/google" class="btn btn-primary"><span class="fa fa-google"> </span> 구글계정으로 로그인</a>
+            <a href="/auth/google" class="btn btn-primary"><span class="fa fa-google"> </span> 구글계정으로 로그인</a>
+            <br>
+            <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+
         </div>
-
+        
     </div>
-    <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1084485908563881',
-      xfbml      : true,
-      version    : 'v6.0'
-    });
-    FB.AppEvents.logPageView();
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
     
     
   <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v6.0&appId=1084485908563881&autoLogAppEvents=1&redirect_uri=http://localhost:3000/auth/facebook/callback"></script> 
-
-    <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v6.0&appId=1084485908563881&autoLogAppEvents=1&redirect_uri=http://localhost:3000/auth/facebook/callback"></script>
     
     
 </body>

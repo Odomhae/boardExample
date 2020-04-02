@@ -26,12 +26,12 @@
 			    <% if (message.length > 0) { %>
 			        <div class="alert alert-danger"><%= message %></div>
 			    <% } %>
-                
-		        <a href="/logout" class="btn btn-default btn-sm">로그아웃</a>
+				
+				<br>
+				
 		    </div>
 			<br>
 		    <div class="row">
-		
 		        <div class="col-sm-6">
 		            <div class="well">
                         <% if(user.provider ==undefined || user.provider =='') { %>
@@ -72,7 +72,12 @@
 		            </div>
 		        </div>
 		
-		    </div>
+			</div>
+			
+			<a class="btn btn-default btn-sm" href='/public/addpost.html'>글쓰기</a> &nbsp;
+			<a class="btn btn-default btn-sm" href='/process/listpost?page=0&perPage=5'>글 목록보기</a> &nbsp;
+			<br><br>
+			<a href="/logout" class="ui button">로그아웃</a>
 			
 		</div>	
 			
