@@ -5,8 +5,8 @@
  
 And Comments:) 
  
- Starts with localhost:3000/public/listpost.html
-
+ Starts with localhost:3000
+ 
 <h4>Not used: </h4>
 /public
 <br>
