@@ -91,7 +91,7 @@
 
                         <div class="field">
                             <label>내용</label>
-                            <textarea id="contents" name="contents" rows="100" cols="80"> <%=posts._doc.contents %>   </textarea>
+                            <textarea id="contents" name="contents" rows="100" cols="80"> <%=posts._doc.contents %>    </textarea>
                             <script>
                                 ClassicEditor
                                     .create(document.querySelector('#contents'))
@@ -107,11 +107,6 @@
                             <div class="field">
                                 <label>작성자</label>
                                 <input type="text" name="writer" value="<%= posts._doc.writer.email %>">
-                               <!-- <output id="contentsOutput" class="description" name ="writer">
-                                    <//%=posts._doc.writer.email %>
-                                </output>
-                                <object width="400" height="400" data="<//%=posts._doc.writer.email %>" name= "writer"></object>
-                                <!-- <input type="text" name="writer" placeholder="작성자아이디 입력"> -->
                             </div>
                             <div class="field"></div>
                         </div>
