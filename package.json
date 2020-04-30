@@ -21,7 +21,7 @@
     "gulp": "^3.9.1",
     "html-entities": "^1.2.1",
     "http": "0.0.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mongodb": "^3.5.2",
     "mongoose": "^5.8.11",
     "natives": "^1.1.6",
